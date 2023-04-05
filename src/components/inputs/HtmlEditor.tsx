@@ -26,7 +26,14 @@ export const HtmlEditor: React.FC<HtmlEditorProps> = ({ value, setValue, id, cla
   };
 
   const modules = {
-    toolbar: [[{ header: [2, 3, 4, false] }], ['bold', 'italic', 'underline', 'strike'], ['link', 'image']],
+    toolbar: [
+      [{ header: [2, 3, 4, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [
+        'link',
+        //'image'
+      ],
+    ],
   };
 
   return (
@@ -35,7 +42,8 @@ export const HtmlEditor: React.FC<HtmlEditorProps> = ({ value, setValue, id, cla
         onChange: handleChange,
         modules,
         value,
-      })}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any)}
     </div>
   );
 };

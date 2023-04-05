@@ -10,14 +10,8 @@ import toast from 'react-hot-toast';
 import { trpc } from '@/utils/trpc';
 import Switch from '../inputs/Switch';
 import { useResources } from '@/hooks/useResources';
-
-const getBase64 = (file: File): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+import { ImageUploader } from '@/components/inputs/ImageUploader';
+import { LoadingSpinner } from '../icons/LoadingSpinner';
 
 export const ResourceForm: React.FC = () => {
   const { refetch } = useResources();
@@ -33,8 +27,9 @@ export const ResourceForm: React.FC = () => {
   ]);
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
-  const { data } = trpc.resources.getOne.useQuery(resourceId, {
+  const { data, isLoading } = trpc.resources.getOne.useQuery(resourceId, {
     retry: false,
+    refetchOnWindowFocus: false,
   });
 
   const createMutation = trpc.resources.create.useMutation();
@@ -48,13 +43,6 @@ export const ResourceForm: React.FC = () => {
       setIsVisible(data.isVisible);
     }
   }, [data]);
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const base64 = await getBase64(e.target.files[0]);
-      setImageUrl(base64);
-    }
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -93,23 +81,16 @@ export const ResourceForm: React.FC = () => {
     }
   };
 
+  if (isLoading) return <LoadingSpinner className="h-10 w-10 animate-spin text-gray-500" />;
+
   return (
-    <form onSubmit={handleSubmit} className="rounded-md bg-white p-5 shadow">
+    <form onSubmit={handleSubmit}>
       <div className="mb-10 flex items-center justify-between gap-5">
         <Button type="button" onClick={() => router.push('/resources/')} className="!bg-gray-400">
           Retour
         </Button>
 
         <div className="flex gap-5">
-          <a href={process.env.NEXT_PUBLIC_APP_URL + '/resources/' + resourceId} rel="noreferrer" target="_blank">
-            <Button
-              loading={createMutation.isLoading || updateMutation.isLoading}
-              className="self-center !bg-gray-400"
-              type="button"
-            >
-              Voir la preview
-            </Button>
-          </a>
           <Button loading={createMutation.isLoading || updateMutation.isLoading} className="self-center" type="submit">
             Sauvegarder
           </Button>
@@ -130,12 +111,7 @@ export const ResourceForm: React.FC = () => {
 
         <Switch id="visible" checked={isVisible} onChange={(bool) => setIsVisible(bool)} label="Visible" />
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="rounded-sm border border-gray-400 p-2"
-        />
+        <ImageUploader setUrl={setImageUrl} url={imageUrl} />
 
         {imageUrl && <Image src={imageUrl} width={200} height={200} alt="" />}
 

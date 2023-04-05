@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { withPlausibleProxy } = require('next-plausible');
+const {
+  withPlausibleProxy
+} = require('next-plausible');
 
 module.exports = withPlausibleProxy()({
   typescript: {
@@ -9,8 +11,7 @@ module.exports = withPlausibleProxy()({
   },
   reactStrictMode: true,
   async redirects() {
-    return [
-      {
+    return [{
         source: '/login',
         destination: '/signin',
         permanent: true,
@@ -21,5 +22,8 @@ module.exports = withPlausibleProxy()({
         permanent: true,
       },
     ];
+  },
+  images: {
+    domains: ['gkqwaqtqljdwkbntswzy.supabase.co'],
   },
 });
