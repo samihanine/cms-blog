@@ -1,9 +1,8 @@
 import type { NextPage } from 'next';
 import { useTranslations } from 'next-intl';
-
 import { AuthWrapper } from '@/components/auth/AuthWrapper';
-import { Link } from '@/components/Link';
 import { getLocaleProps } from '@/utils/locales';
+import Link from 'next/link';
 
 const Success: NextPage = () => {
   const t = useTranslations('auth');

@@ -12,7 +12,8 @@ const ReactQuill = dynamic(
   async () => {
     const { default: RQ } = await import('react-quill');
 
-    return ({ forwardedRef, ...props }) => <RQ ref={forwardedRef} {...props} />;
+    // eslint-disable-next-line react/display-name
+    return ({ ...props }) => <RQ {...props} />;
   },
   {
     ssr: false,
