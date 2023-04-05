@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { Head } from '@/components/layouts/Head';
-import Link from 'next/link';
 import { Logo } from '@/components/logos/Logo';
 import image from 'public/images/symbolic-1.jpeg';
 
@@ -12,6 +11,7 @@ type Props = {
   children: React.ReactNode;
 };
 
+/*
 const AlternativeLink: React.FC<{ type: AuthType }> = ({ type }) => {
   const t = useTranslations('auth');
 
@@ -22,6 +22,7 @@ const AlternativeLink: React.FC<{ type: AuthType }> = ({ type }) => {
 
   return <Link href="/signup">{signUpTitle}</Link>;
 };
+*/
 
 const authTypeToText = (type: AuthType): string => {
   if (type === 'signin') return 'SignIn';

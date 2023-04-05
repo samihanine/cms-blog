@@ -5,7 +5,6 @@ import { useSessionContext } from '@supabase/auth-helpers-react';
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
 import { LoadingSpinner } from '@/components/icons/LoadingSpinner';
-import { GoogleButton } from '@/components/auth/GoogleButton';
 import { LANG_COOKIE_KEY } from '@/constants';
 
 export const SignInForm: React.FC = () => {

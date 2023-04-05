@@ -36,7 +36,7 @@ export const ResourceList = ({}) => {
         toast.success('Ressource supprimée');
         refetch();
       },
-      onError: (err: Error) => {
+      onError: (err) => {
         console.log(err);
         toast.error('Une erreur est survenue');
       },

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import type { ResourcesTranslations, ResourcesType } from '@prisma/client';
-import type { Resources } from '@prisma/client';
 import { HtmlEditor } from '@/components/inputs/HtmlEditor';
 import { InputSelect } from '@/components/inputs/InputSelect';
 import { InputText } from '@/components/inputs/InputText';
@@ -68,11 +67,11 @@ export const ResourceForm: React.FC = () => {
 
     if (isNew) {
       createMutation.mutate(payload, {
-        onSuccess: (result: Resources) => {
+        onSuccess: (result) => {
           toast.success('Ressources sauvegardée');
           router.push(`/resources/${result.id}`);
         },
-        onError: (err: Error) => {
+        onError: (err) => {
           console.log(err);
           toast.error('Une erreur est survenue');
         },
@@ -82,7 +81,7 @@ export const ResourceForm: React.FC = () => {
         onSuccess: () => {
           toast.success('Ressources sauvegardée');
         },
-        onError: (err: Error) => {
+        onError: (err) => {
           console.log(err);
           toast.error('Une erreur est survenue');
         },
