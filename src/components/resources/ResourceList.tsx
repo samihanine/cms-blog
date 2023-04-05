@@ -78,7 +78,7 @@ export const ResourceList = ({}) => {
                 {resource.type === 'NEWS' ? (
                   <Tag>{t('news')}</Tag>
                 ) : (
-                  <Tag className="bg-blue-200 text-blue-600">{t('document')}</Tag>
+                  <Tag className="!bg-blue-200 !text-blue-600">{t('document')}</Tag>
                 )}
               </td>
               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">

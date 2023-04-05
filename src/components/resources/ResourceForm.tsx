@@ -9,6 +9,7 @@ import { Button } from '@/components/inputs/Button';
 import toast from 'react-hot-toast';
 import { trpc } from '@/utils/trpc';
 import Switch from '../inputs/Switch';
+import { useResources } from '@/hooks/useResources';
 
 const getBase64 = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -19,6 +20,7 @@ const getBase64 = (file: File): Promise<string> =>
   });
 
 export const ResourceForm: React.FC = () => {
+  const { refetch } = useResources();
   const router = useRouter();
   const resourceId = (router.query.resource || 'new') as string;
   const isNew = resourceId === 'new';
@@ -70,6 +72,7 @@ export const ResourceForm: React.FC = () => {
         onSuccess: (result) => {
           toast.success('Ressources sauvegardée');
           router.push(`/resources/${result.id}`);
+          refetch();
         },
         onError: (err) => {
           console.log(err);
@@ -80,6 +83,7 @@ export const ResourceForm: React.FC = () => {
       updateMutation.mutate(payload, {
         onSuccess: () => {
           toast.success('Ressources sauvegardée');
+          refetch();
         },
         onError: (err) => {
           console.log(err);
