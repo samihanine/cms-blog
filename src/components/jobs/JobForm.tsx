@@ -106,7 +106,7 @@ export const JobForm: React.FC = () => {
           value={location}
           onChange={(e) => setLocation(e.target.value as JobsLocation)}
           id="location"
-          label="lieu de travail"
+          label="Lieu de travail"
           name="location"
         >
           <option value="REMOTE">A distance</option>
@@ -114,15 +114,15 @@ export const JobForm: React.FC = () => {
           <option value="ON_SITE">Sur place</option>
         </InputSelect>
 
-        <Switch id="visible" checked={isVisible} onChange={(bool) => setIsVisible(bool)} label="Visible à tous" />
+        <Switch id="visible" checked={isVisible} onChange={(bool) => setIsVisible(bool)} label="Afficher / Masquer" />
 
         <InputText
-          label="Lien"
+          label="Lien (optionnel)"
           id="link"
           type="text"
           value={link}
           onChange={(e) => setLink(e.target.value)}
-          placeholder="https://"
+          placeholder="https://ca.indeed.com/"
         />
 
         <InputText
@@ -154,6 +154,7 @@ export const JobForm: React.FC = () => {
                 id={`title-${t.language}`}
                 type="text"
                 value={t.title}
+                placeholder={'Responsable RH'}
                 onChange={(e) =>
                   setTranslations((prev) => {
                     const updated = [...prev];
@@ -189,6 +190,7 @@ export const JobForm: React.FC = () => {
                 id={`type-${t.language}`}
                 type="text"
                 value={t.type}
+                placeholder={'Temps plein'}
                 onChange={(e) =>
                   setTranslations((prev) => {
                     const updated = [...prev];
@@ -206,6 +208,7 @@ export const JobForm: React.FC = () => {
                 id={`type-${t.language}`}
                 type="text"
                 value={t.duration}
+                placeholder={'2 ans'}
                 onChange={(e) =>
                   setTranslations((prev) => {
                     const updated = [...prev];

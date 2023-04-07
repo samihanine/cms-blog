@@ -4,6 +4,7 @@ import { Support } from '@/components/settings/Support';
 import { Wrapper } from '@/components/layouts/Wrapper';
 import { getLocaleProps } from '@/utils/locales';
 import { Account } from '@/components/settings/Account';
+import { UpdatePassword } from '@/components/auth/UpdatePassword';
 
 const Settings: NextPage = () => {
   const t = useTranslations();
@@ -11,6 +12,7 @@ const Settings: NextPage = () => {
   return (
     <Wrapper title={t('navigation.settings')}>
       <div className="space-y-6">
+        <UpdatePassword />
         <Account />
         <Support />
       </div>

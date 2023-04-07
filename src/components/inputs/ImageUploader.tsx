@@ -52,7 +52,7 @@ export const ImageUploader = ({ setUrl }: ImageUploaderProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      <Label label="Image" id="file" />
+      <Label label="Image de couverture (en haut de l'article)" id="file" />
       <input type="file" id="file" name="file" accept="image/*" onChange={handleFileChange} />
       {file && (
         <Button onClick={handleSubmit} type="button">

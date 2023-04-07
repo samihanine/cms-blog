@@ -12,6 +12,7 @@ import Switch from '../inputs/Switch';
 import { useResources } from '@/hooks/useResources';
 import { ImageUploader } from '@/components/inputs/ImageUploader';
 import { LoadingSpinner } from '../icons/LoadingSpinner';
+import { Label } from '../inputs/Label';
 
 export const ResourceForm: React.FC = () => {
   const { refetch } = useResources();
@@ -25,7 +26,7 @@ export const ResourceForm: React.FC = () => {
     { language: 'FR', title: '', content: '', keywords: '' },
     { language: 'EN', title: '', content: '', keywords: '' },
   ]);
-  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const { data, isLoading } = trpc.resources.getOne.useQuery(resourceId, {
     refetchOnWindowFocus: false,
@@ -101,14 +102,14 @@ export const ResourceForm: React.FC = () => {
           value={type}
           onChange={(e) => setType(e.target.value as ResourcesType)}
           id="type"
-          label="type"
+          label="Type"
           name="type"
         >
           <option value="NEWS">Nouvelle</option>
           <option value="DOCUMENT">Document</option>
         </InputSelect>
 
-        <Switch id="visible" checked={isVisible} onChange={(bool) => setIsVisible(bool)} label="Visible" />
+        <Switch id="visible" checked={isVisible} onChange={(bool) => setIsVisible(bool)} label="Afficher / Masquer" />
 
         <ImageUploader setUrl={setImageUrl} url={imageUrl} />
 
@@ -137,9 +138,7 @@ export const ResourceForm: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor={`content-${t.language}`} className="block">
-                Contenu
-              </label>
+              <Label label={"Contenu (texte et images de l'article)"} id={`content-${t.language}`} />
               <HtmlEditor
                 id={`content-${t.language}`}
                 value={t.content}
@@ -156,10 +155,11 @@ export const ResourceForm: React.FC = () => {
 
             <div className="space-y-2">
               <InputText
-                label={'Keywords'}
+                label={'Mots clés (séparés par des espaces)'}
                 id={`keywords-${t.language}`}
                 type="text"
                 value={t.keywords}
+                placeholder="bio énergie ferme"
                 onChange={(e) =>
                   setTranslations((prev) => {
                     const updated = [...prev];
