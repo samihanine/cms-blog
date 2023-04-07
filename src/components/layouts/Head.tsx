@@ -17,10 +17,7 @@ export const Head: React.FC<Props> = ({ title }) => (
     <title>{getTitle(title)}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="og:title" content={process.env.NEXT_PUBLIC_APP_NAME} />
-    <meta
-      property="og:description"
-      content="Keep track of your journeys with public transport in and around Switzerland."
-    />
+    <meta property="og:description" content="Obeo biogas CMS" />
     <meta property="og:site_name" content={process.env.NEXT_PUBLIC_APP_NAME} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@noahflk" />
