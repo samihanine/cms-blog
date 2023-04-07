@@ -1,5 +1,5 @@
-import React from 'react';
-import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+import CKeditor from './CKeditor';
 
 interface HtmlEditorProps {
   value: string;
@@ -8,42 +8,23 @@ interface HtmlEditorProps {
   className?: string;
 }
 
-const ReactQuill = dynamic(
-  async () => {
-    const { default: RQ } = await import('react-quill');
+export const HtmlEditor = ({ value, setValue }: HtmlEditorProps) => {
+  const [editorLoaded, setEditorLoaded] = useState<boolean>(false);
 
-    // eslint-disable-next-line react/display-name
-    return ({ ...props }) => <RQ {...props} />;
-  },
-  {
-    ssr: false,
-  }
-);
-
-export const HtmlEditor: React.FC<HtmlEditorProps> = ({ value, setValue, id, className }) => {
-  const handleChange = (newContent: string) => {
-    setValue(newContent);
-  };
-
-  const modules = {
-    toolbar: [
-      [{ header: [2, 3, 4, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [
-        'link',
-        //'image'
-      ],
-    ],
-  };
+  useEffect(() => {
+    setEditorLoaded(true);
+  }, []);
 
   return (
-    <div id={id} className={`rounded-xl border border-gray-200 bg-white outline-none ${className}`}>
-      {React.createElement(ReactQuill, {
-        onChange: handleChange,
-        modules,
-        value,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any)}
+    <div>
+      <CKeditor
+        name="description"
+        onChange={(data: string) => {
+          setValue(data);
+        }}
+        value={value}
+        editorLoaded={editorLoaded}
+      />
     </div>
   );
 };
