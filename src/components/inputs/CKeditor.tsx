@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef } from 'react';
 
 class Base64UploadAdapter {
@@ -26,7 +28,9 @@ class Base64UploadAdapter {
     );
   }
 
-  abort() {}
+  abort() {
+    // TODO
+  }
 }
 
 type EditorProps = {
@@ -73,13 +77,13 @@ function MyCustomUploadAdapterPlugin(editor: any) {
 
 function Editor({ onChange, editorLoaded, name, value }: EditorProps) {
   const editorRef = useRef();
-  const { CKEditor, ClassicEditor } = editorRef.current || {};
+  const { CKEditor, ClassicEditor } = (editorRef.current || {}) as any;
 
   useEffect(() => {
     editorRef.current = {
       CKEditor: require('@ckeditor/ckeditor5-react').CKEditor, // v3+
       ClassicEditor: require('@ckeditor/ckeditor5-build-classic'),
-    };
+    } as any;
   }, []);
 
   return (
@@ -91,7 +95,7 @@ function Editor({ onChange, editorLoaded, name, value }: EditorProps) {
           editor={ClassicEditor}
           data={value}
           config={editorConfiguration}
-          onChange={(event, editor) => {
+          onChange={(_event: any, editor: any) => {
             const data = editor.getData();
             // console.log({ event, editor, data })
             onChange(data);
