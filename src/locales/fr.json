@@ -31,6 +31,7 @@
     "dashboard": "Tableau de bord",
     "settings": "Paramètres",
     "resources": "Ressources",
+    "jobs": "Emplois",
     "signOut": "Se déconnecter",
     "signOutError": "Impossible de se déconnecter",
     "signedInAs": "Connecté en tant que"

@@ -31,6 +31,7 @@
     "dashboard": "Dashboard",
     "settings": "Settings",
     "resources": "Resources",
+    "jobs": "Jobs",
     "signOut": "Sign Out",
     "signOutError": "Unable to sign out",
     "signedInAs": "Signed in as"

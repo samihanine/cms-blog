@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Label } from './Label';
 
 type SwitchProps = Omit<React.HTMLAttributes<HTMLInputElement>, 'onChange'> & {
@@ -13,9 +13,12 @@ const Switch = ({ id, checked, onChange, label }: SwitchProps) => {
 
   const handleChange = () => {
     const newChecked = !isChecked;
-    setIsChecked(newChecked);
     onChange(newChecked);
   };
+
+  useEffect(() => {
+    setIsChecked(checked);
+  }, [checked]);
 
   return (
     <div className="flex flex-col gap-3">

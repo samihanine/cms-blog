@@ -1,45 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import type { ResourcesTranslations, ResourcesType } from '@prisma/client';
+import type { JobsLocation } from '@prisma/client';
 import { HtmlEditor } from '@/components/inputs/HtmlEditor';
 import { InputSelect } from '@/components/inputs/InputSelect';
 import { InputText } from '@/components/inputs/InputText';
-import Image from 'next/image';
 import { Button } from '@/components/inputs/Button';
 import toast from 'react-hot-toast';
 import { trpc } from '@/utils/trpc';
 import Switch from '../inputs/Switch';
-import { useResources } from '@/hooks/useResources';
-import { ImageUploader } from '@/components/inputs/ImageUploader';
 import { LoadingSpinner } from '../icons/LoadingSpinner';
+import { useJobs } from '@/hooks/useJobs';
 
-export const ResourceForm: React.FC = () => {
-  const { refetch } = useResources();
+export const JobForm: React.FC = () => {
+  const { refetch } = useJobs();
   const router = useRouter();
-  const resourceId = (router.query.resource || 'new') as string;
-  const isNew = resourceId === 'new';
+  const id = (router.query.job || 'new') as string;
+  const isNew = id === 'new';
 
-  const [imageUrl, setImageUrl] = useState<string>();
-  const [type, setType] = useState<ResourcesType>('NEWS');
-  const [translations, setTranslations] = useState<Omit<ResourcesTranslations, 'resourceId' | 'id'>[]>([
-    { language: 'FR', title: '', content: '', keywords: '' },
-    { language: 'EN', title: '', content: '', keywords: '' },
+  const [place, setPlace] = useState<string>();
+  const [link, setLink] = useState<string>();
+  const [salary, setSalary] = useState<string>();
+  const [location, setLocation] = useState<JobsLocation>('ON_SITE');
+  const [translations, setTranslations] = useState([
+    { language: 'FR', title: '', content: '', type: '', duration: '' },
+    { language: 'EN', title: '', content: '', type: '', duration: '' },
   ]);
-  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const { data, isLoading } = trpc.resources.getOne.useQuery(resourceId, {
+  const { data, isLoading } = trpc.jobs.getOne.useQuery(id, {
     refetchOnWindowFocus: false,
   });
 
-  const createMutation = trpc.resources.create.useMutation();
-  const updateMutation = trpc.resources.update.useMutation();
+  const createMutation = trpc.jobs.create.useMutation();
+  const updateMutation = trpc.jobs.update.useMutation();
 
   useEffect(() => {
+    console.log(data);
     if (data) {
-      setImageUrl(data.imageUrl || '');
-      setTranslations(data.translations || []);
-      setType(data.type || 'NEWS');
+      setPlace(data.place || '');
+      setLink(data.link || '');
+      setSalary(data.salary || '');
+      setLocation(data.location || 'ON_SITE');
       setIsVisible(data.isVisible);
+      setTranslations(data.translations || []);
     }
   }, [data]);
 
@@ -48,17 +51,19 @@ export const ResourceForm: React.FC = () => {
 
     const payload = {
       id: data?.id,
-      imageUrl: imageUrl || '',
+      place: place || '',
+      link: link || '',
+      salary: salary || '',
       translations: translations,
-      type,
+      location: location,
       isVisible,
     };
 
     if (isNew) {
       createMutation.mutate(payload, {
         onSuccess: (result) => {
-          toast.success('Ressources sauvegardée');
-          router.push(`/resources/${result.id}`);
+          toast.success("Offre d'emploi sauvegardée");
+          router.push(`/jobs/${result.id}`);
           refetch();
         },
         onError: (err) => {
@@ -69,7 +74,7 @@ export const ResourceForm: React.FC = () => {
     } else {
       updateMutation.mutate(payload, {
         onSuccess: () => {
-          toast.success('Ressources sauvegardée');
+          toast.success("Offre d'emploi sauvegardée");
           refetch();
         },
         onError: (err) => {
@@ -85,7 +90,7 @@ export const ResourceForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-10 flex items-center justify-between gap-5">
-        <Button type="button" onClick={() => router.push('/resources/')} className="!bg-gray-400">
+        <Button type="button" onClick={() => router.push('/jobs/')} className="!bg-gray-400">
           Retour
         </Button>
 
@@ -98,21 +103,45 @@ export const ResourceForm: React.FC = () => {
 
       <div className="flex flex-col gap-7">
         <InputSelect
-          value={type}
-          onChange={(e) => setType(e.target.value as ResourcesType)}
-          id="type"
-          label="type"
-          name="type"
+          value={location}
+          onChange={(e) => setLocation(e.target.value as JobsLocation)}
+          id="location"
+          label="lieu de travail"
+          name="location"
         >
-          <option value="NEWS">Nouvelle</option>
-          <option value="DOCUMENT">Document</option>
+          <option value="REMOTE">A distance</option>
+          <option value="HYBRID">Hybride</option>
+          <option value="ON_SITE">Sur place</option>
         </InputSelect>
 
-        <Switch id="visible" checked={isVisible} onChange={(bool) => setIsVisible(bool)} label="Visible" />
+        <Switch id="visible" checked={isVisible} onChange={(bool) => setIsVisible(bool)} label="Visible à tous" />
 
-        <ImageUploader setUrl={setImageUrl} url={imageUrl} />
+        <InputText
+          label="Lien"
+          id="link"
+          type="text"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          placeholder="https://"
+        />
 
-        {imageUrl && <Image src={imageUrl} width={200} height={200} alt="" />}
+        <InputText
+          label="Endroit"
+          id="place"
+          type="text"
+          value={place}
+          onChange={(e) => setPlace(e.target.value)}
+          placeholder="Montréal, QC"
+        />
+
+        <InputText
+          label="Salaire"
+          id="salary"
+          type="text"
+          value={salary}
+          onChange={(e) => setSalary(e.target.value)}
+          placeholder="30$/h"
+        />
 
         {translations.map((t, idx) => (
           <div key={t.language} className="space-y-4">
@@ -138,7 +167,7 @@ export const ResourceForm: React.FC = () => {
 
             <div className="space-y-2">
               <label htmlFor={`content-${t.language}`} className="block">
-                Contenu
+                Description
               </label>
               <HtmlEditor
                 id={`content-${t.language}`}
@@ -156,15 +185,32 @@ export const ResourceForm: React.FC = () => {
 
             <div className="space-y-2">
               <InputText
-                label={'Keywords'}
-                id={`keywords-${t.language}`}
+                label={'Type de contrat'}
+                id={`type-${t.language}`}
                 type="text"
-                value={t.keywords}
+                value={t.type}
                 onChange={(e) =>
                   setTranslations((prev) => {
                     const updated = [...prev];
                     if (!updated[idx]) updated[idx] = {};
-                    updated[idx].keywords = e.target.value;
+                    updated[idx].type = e.target.value;
+                    return updated;
+                  })
+                }
+              />
+            </div>
+
+            <div className="space-y-2">
+              <InputText
+                label={'Durée de contrat'}
+                id={`type-${t.language}`}
+                type="text"
+                value={t.duration}
+                onChange={(e) =>
+                  setTranslations((prev) => {
+                    const updated = [...prev];
+                    if (!updated[idx]) updated[idx] = {};
+                    updated[idx].duration = e.target.value;
                     return updated;
                   })
                 }

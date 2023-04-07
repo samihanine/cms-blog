@@ -9,6 +9,7 @@ specifiers:
   '@supabase/supabase-js': ^2.0.4
   '@tailwindcss/forms': 0.5.3
   '@tanstack/react-query': ^4.16.1
+  '@tanstack/react-table': ^8.8.5
   '@trpc/client': 10.14.0
   '@trpc/next': 10.14.0
   '@trpc/react-query': 10.14.0
@@ -68,6 +69,7 @@ dependencies:
   '@supabase/auth-helpers-react': 0.3.1_3hmmi5peetriqs3rb4qpz34hwi
   '@supabase/supabase-js': 2.0.4
   '@tanstack/react-query': 4.16.1_biqbaboplfbrettd7655fr4n2y
+  '@tanstack/react-table': 8.8.5_biqbaboplfbrettd7655fr4n2y
   '@trpc/client': 10.14.0_@trpc+server@10.14.0
   '@trpc/next': 10.14.0_eddj4wehg5vg52csq4mukf7mf4
   '@trpc/react-query': 10.14.0_m3gwn7obebw5an5ceqjnzmk4o4
@@ -607,6 +609,23 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
+
+  /@tanstack/react-table/8.8.5_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-g/t21E/ICHvaCOJOhsDNr5QaB/6aDQEHFbx/YliwwU/CJThMqG+dS28vnToIBV/5MBgpeXoGRi2waDJVJlZrtg==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/table-core': 8.8.5
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@tanstack/table-core/8.8.5:
+    resolution: {integrity: sha512-Xnwa1qxpgvSW7ozLiexmKp2PIYcLBiY/IizbdGriYCL6OOHuZ9baRhrrH51zjyz+61ly6K59rmt6AI/3RR+97Q==}
+    engines: {node: '>=12'}
     dev: false
 
   /@trpc/client/10.14.0_@trpc+server@10.14.0:

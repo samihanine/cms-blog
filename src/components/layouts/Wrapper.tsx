@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { CogIcon, HomeIcon, MenuIcon, ViewGridIcon, XIcon } from '@heroicons/react/outline';
+import { CogIcon, HomeIcon, MenuIcon, ViewGridIcon, XIcon, BriefcaseIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
@@ -24,6 +24,7 @@ export const Wrapper: React.FC<Props> = ({ children, title }) => {
   const navigation = [
     { name: t('dashboard'), href: '/dashboard', icon: HomeIcon },
     { name: t('resources'), href: '/resources', icon: ViewGridIcon },
+    { name: t('jobs'), href: '/jobs', icon: BriefcaseIcon },
     { name: t('settings'), href: '/settings', icon: CogIcon },
   ];
 
