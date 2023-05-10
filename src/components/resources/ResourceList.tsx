@@ -46,7 +46,11 @@ export const ResourceList = ({}) => {
       header: () => <span>Nom</span>,
       cell: ({ row }) => {
         const resource = row.original;
-        return resource.translations.length ? resource.translations[0]?.title : '';
+        return (
+          <span className="flex max-w-[20vw] overflow-hidden text-ellipsis lg:max-w-[200px]">
+            {resource.translations.length ? resource.translations[0]?.title : ''}
+          </span>
+        );
       },
     }),
     columnHelper.accessor('id', {
