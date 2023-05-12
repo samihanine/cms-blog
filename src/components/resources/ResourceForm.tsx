@@ -155,7 +155,7 @@ export const ResourceForm: React.FC = () => {
 
             <div className="space-y-2">
               <InputText
-                label={'Mots clés (séparés par des espaces)'}
+                label={'Mots clés (séparés par des virgules)'}
                 id={`keywords-${t.language}`}
                 type="text"
                 value={t.keywords}

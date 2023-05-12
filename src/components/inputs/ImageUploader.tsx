@@ -15,16 +15,13 @@ export const ImageUploader = ({ setUrl }: ImageUploaderProps) => {
   const [file, setFile] = useState<File | null>(null);
   const { supabaseClient } = useSessionContext();
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
-    if (fileList) {
-      setFile(fileList[0] as File);
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (!file) {
-      toast.error("Selectionnez d'abord une nouvelle image");
+    if (!(fileList && fileList.length > 0)) return;
+    const file = fileList[0];
+    if (!file) return;
+    if (file.size > 1024 * 1024 * 4) {
+      toast.error('Le fichier est trop lourd (4Mo max)');
       return;
     }
 
